@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-declare -r BASE_DIR=$(dirname $(realpath $0))
+declare -r BASE_DIR=$(dirname $(readlink -f $0))
 declare -r API_KEY_FILE=${BASE_DIR}'/api_key.txt'
 declare -r TMP_DIR="$(mktemp -du)"
 declare -r DOMAINS_FILE=${BASE_DIR}'/domains.txt'
