@@ -1,9 +1,9 @@
-# update_letsencrypt
+# upd_ssl
 Скрипт обновления бесплатных SSL-сертификатов, таких как Let's Encrypt сроком действия 3 месяца, на облачных серверах [NetAngels.ru](https://www.netangels.ru/). Проект представляет собой доработку скрипта службы технической поддержки [NetAngels.ru](https://www.netangels.ru/).
 
 Скрипт позволяет автоматизатировать процесс обновления SSL сертификатов, выпущенных через [панель управления NetAngels.ru](https://panel.netangels.ru/). Основную информацию скрипт пишет в свой лог `upd_ssl.log`. В скрипте используется [следующий API](https://api.netangels.ru/gateway/modules/gateway_api.api.certificates/#ssl).
 
-## Порядок установки и использования update_letsencrypt
+## Порядок установки и использования upd_ssl
 
 1. Для работы необходимо установить пакет `jq`. Возможно, на Debian Wheezy этого пакета нет, тогда его нужно взять из бэкпортов (тогда нужно раскомментировать первую строку):
 ```
@@ -33,7 +33,7 @@ echo "Z9wHn3wVX7h6cUa9K8tGnJtkRUTeoqmBlqfHo8L1udZpwGfkHxbxM3ZW" >> api_key.txt
 sudo ln -s ~/upd_ssl/ssl /etc/nginx 
 ```
 
-6. В crontab добавляем задание, где вместо user1 подставляем реальные имя пользователя. 
+6. В crontab добавляем задание, где вместо `user1` подставляем реальное имя пользователя.
 ```
 0 1 * * * /usr/bin/sudo -u user1 /home/user1/upd_ssl/upd_ssl.sh && nginx -s reload
 ```
