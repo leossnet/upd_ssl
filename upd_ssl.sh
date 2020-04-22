@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-declare -r BASE_DIR=$(dirname $0)
+declare -r BASE_DIR=$(dirname $(realpath $0))
 declare -r API_KEY_FILE=${BASE_DIR}'/api_key.txt'
 declare -r TMP_DIR="$(mktemp -du)"
 declare -r DOMAINS_FILE=${BASE_DIR}'/domains.txt'
@@ -30,7 +30,7 @@ for STRING in $(cat ${DOMAINS_FILE} | grep -v "#"); do
     DOMAIN=$(echo ${STRING} | cut -d":" -f2)
     ID=$(echo ${STRING} | cut -d":" -f1)
 
-    FULL_INFO=$(curl -s -k -H "Authorization: Bearer ${TOKEN}" -X GET "https://api-ms.netangels.ru/api/v1/certificates/${id}/" | jq .)
+    FULL_INFO=$(curl -s -k -H "Authorization: Bearer ${TOKEN}" -X GET "https://api-ms.netangels.ru/api/v1/certificates/${ID}/" | jq .)
 
     STATE=$(echo ${FULL_INFO} | jq '.state')
     [[ "${STATE}" = "\"Issued\""  ]] || {
