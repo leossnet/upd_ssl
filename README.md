@@ -24,12 +24,16 @@ cd upd_ssl
 echo "Z9wHn3wVX7h6cUa9K8tGnJtkRUTeoqmBlqfHo8L1udZpwGfkHxbxM3ZW" >> api_key.txt
 ```
 
-4. В файле `domains.txt` добавляем список доменов вида `id:domain`, которые будем чекать. id берем из url в разделе [SSL-сертификаты](https://panel.netangels.ru/certificates/#/) панели управления.
+4. В файле `domains.txt` добавляем список доменов вида `id:domain`, которые будем чекать. id берем из url в разделе [SSL-сертификаты](https://panel.netangels.ru/certificates/#/) панели управления, например:
+```
+12345:mydomain.ru
+23456:mydomain.com
+```
 
 
 5. К web-серверу прокидываем симлинк. При наличии удаляем имеющуюся папку с сертификатами `/etc/nginx/ssl` (нужно расскоментировать первую строку):
 ```
-#sudo rm /etc/nginx/ssl
+#sudo rm -R /etc/nginx/ssl
 sudo ln -s ~/upd_ssl/ssl /etc/nginx 
 ```
 
@@ -46,7 +50,7 @@ bash -x ./upd_ssl.sh
 ### Примечания:
 1. Задания `cron` прописываются в файле, который открывается командой `crontab -e`. Чтобы можно было редактировать этот файл в `Midnight Commander`, нужно выполнить комманду `select-editor` и выбрать из списка `/usr/bin/mcedit`.
 
-2. На серверах [Ubuntu](https://ubuntu.com/download/server) логи `cron` выводятся в общий системный лог `/var/log/syslog`, что затрудняет поиск ошибок при отладке. Рекомендуется выделить для `cron` отдельных лог, для чего в файле /`etc/rsyslog.d/50-default.conf` нужно раскомментировать строку `#cron.*         /var/log/cron.log`, после  чего перезапустить службы:
+2. На серверах [Ubuntu](https://ubuntu.com/download/server) логи `cron` выводятся в общий системный лог `/var/log/syslog`, что затрудняет поиск ошибок при отладке. Рекомендуется выделить для `cron` отдельных лог, для чего в файле /`etc/rsyslog.d/50-default.conf`, предварительно выполнив `sudo su`, нужно раскомментировать строку `#cron.*         /var/log/cron.log`, после  чего перезапустить службы:
 ```
 sudo service rsyslog restart
 sudo service cron restart
