@@ -1,5 +1,5 @@
 # upd_ssl
-Скрипт обновления бесплатных SSL-сертификатов, таких как Let's Encrypt сроком действия 3 месяца, на облачных серверах [NetAngels.ru](https://www.netangels.ru/). Проект представляет собой доработку скрипта службы технической поддержки [NetAngels.ru](https://www.netangels.ru/).
+Скрипт обновления бесплатных SSL-сертификатов, таких как Let's Encrypt сроком действия 3 месяца, на облачных серверах [NetAngels.ru](https://www.netangels.ru/) под управлением [Ubuntu Server](https://ubuntu.com/download/server). Проект представляет собой доработку скрипта службы технической поддержки [NetAngels.ru](https://www.netangels.ru/).
 
 Скрипт позволяет автоматизатировать процесс обновления SSL сертификатов, выпущенных через [панель управления NetAngels.ru](https://panel.netangels.ru/). Основную информацию скрипт пишет в свой лог `upd_ssl.log`. В скрипте используется [следующий API](https://api.netangels.ru/gateway/modules/gateway_api.api.certificates/#ssl).
 
@@ -33,14 +33,21 @@ echo "Z9wHn3wVX7h6cUa9K8tGnJtkRUTeoqmBlqfHo8L1udZpwGfkHxbxM3ZW" >> api_key.txt
 sudo ln -s ~/upd_ssl/ssl /etc/nginx 
 ```
 
-6. В crontab добавляем задание, где вместо `user1` подставляем реальное имя пользователя.
-```
-0 1 * * * /usr/bin/sudo -u user1 /home/user1/upd_ssl/upd_ssl.sh && nginx -s reload
-```
-***Примечание**: Задание прописывается в файле, который открывается командой `crontab -e`. Чтобы можно было редактировать этот файл в `Midnight Commander`, нужно выполнить комманду `select-editor` и выбрать из списка `/usr/bin/mcedit`.*
-
-7. Запускаем первый раз скрипт командой. Смотрим вывод на наличие каких-либо ошибок, проверяем директорию `/cert` на наличие сертификатов (параметр `bash -x` выводит на консоль подробный лог):
+6. Запускаем первый раз скрипт командой. Смотрим вывод на наличие каких-либо ошибок, проверяем директорию `/cert` на наличие сертификатов (параметр `bash -x` выводит на консоль подробный лог):
 ```
 chmod 750 ./upd_ssl.sh
 bash -x ./upd_ssl.sh
+```
+
+7. В crontab добавляем задание, где вместо `user1` подставляем реальное имя пользователя.
+```
+0 1 * * * /usr/bin/sudo -u user1 /home/user1/upd_ssl/upd_ssl.sh && nginx -s reload
+```
+### Примечания:
+1. Задания `cron` прописываются в файле, который открывается командой `crontab -e`. Чтобы можно было редактировать этот файл в `Midnight Commander`, нужно выполнить комманду `select-editor` и выбрать из списка `/usr/bin/mcedit`.
+
+2. На серверах [Ubuntu](https://ubuntu.com/download/server) логи `cron` выводятся в общий системный лог `/var/log/syslog`, что затрудняет поиск ошибок при отладке. Рекомендуется выделить для `cron` отдельных лог, для чего в файле /`etc/rsyslog.d/50-default.conf` нужно раскомментировать строку `#cron.*         /var/log/cron.log`, после  чего перезапустить службы:
+```
+sudo service rsyslog restart
+sudo service cron restart
 ```
