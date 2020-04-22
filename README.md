@@ -1,7 +1,7 @@
 # upd_ssl
 Скрипт обновления бесплатных SSL-сертификатов, таких как Let's Encrypt сроком действия 3 месяца, на облачных серверах [NetAngels.ru](https://www.netangels.ru/) под управлением [Ubuntu Server](https://ubuntu.com/download/server). Проект представляет собой доработку скрипта службы технической поддержки [NetAngels.ru](https://www.netangels.ru/).
 
-Скрипт позволяет автоматизатировать процесс обновления SSL сертификатов, выпущенных через [панель управления NetAngels.ru](https://panel.netangels.ru/). Основную информацию скрипт пишет в свой лог `upd_ssl.log`. В скрипте используется [следующий API](https://api.netangels.ru/gateway/modules/gateway_api.api.certificates/#ssl).
+Скрипт позволяет автоматизатировать процесс обновления SSL сертификатов, выпущенных через [панель управления NetAngels.ru](https://panel.netangels.ru/). Основную информацию скрипт пишет в свой лог `upd_ssl.log`. В скрипте используется [следующий API](https://api.netangels.ru/gateway/modules/gateway_api.api.certificates/#ssl). Скрипт проверен на `Ubuntu Server 14.04` и выше.
 
 ## Порядок установки и использования upd_ssl
 
